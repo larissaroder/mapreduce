@@ -26,7 +26,7 @@ public class ApplicationController {
         try {
             List<Money> moneys = moneyService.getMoneys();
             BigDecimal totalValue = moneyService.getTotalValue(moneys);
-            return new ResponseEntity<>(totalValue, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(totalValue, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -38,7 +38,7 @@ public class ApplicationController {
         try {
             List<Money> moneys = moneyService.getMoneys();
             String totalValue = moneyService.getAvarage(moneys);
-            return new ResponseEntity<>(totalValue, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(totalValue, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +52,7 @@ public class ApplicationController {
             String maxValue = moneyService.getMaxValue(moneys);
             return new ResponseEntity<>(maxValue, HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
         }
 
     }
@@ -62,7 +62,7 @@ public class ApplicationController {
         try {
             List<Money> moneys = moneyService.getMoneys();
             String minValue = moneyService.getMinValue(moneys);
-            return new ResponseEntity<>(minValue, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(minValue, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

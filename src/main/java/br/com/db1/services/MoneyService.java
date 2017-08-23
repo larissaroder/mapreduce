@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -30,19 +29,11 @@ public class MoneyService {
         return moneyResponse.getBody();
     }
 
-    public BigDecimal getTotalValue (List<Money> moneys) {
-        return calculate.totalValue(moneys);
-    }
-
-    public String getAvarage (List<Money> moneys) {
-        return  calculate.avarage(moneys);
-    }
-
-    public String getMaxValue (List<Money> moneys) {
+    public Money getMaxValue (List<Money> moneys) {
         return  calculate.maxValue(moneys);
     }
 
-    public String getMinValue (List<Money> moneys) {
-        return  calculate.minValue(moneys);
+    public List<Money> getValueBiggerThreeHundred (List<Money> moneys) {
+        return  calculate.getValueBiggerThreeHundred(moneys);
     }
 }

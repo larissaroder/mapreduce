@@ -20,36 +20,11 @@ public class ApplicationController {
     @Autowired
     private MoneyService moneyService;
 
-
-    @RequestMapping(value = "/total-value", method = RequestMethod.GET)
-    public ResponseEntity<?> getTotalValue() {
-        try {
-            List<Money> moneys = moneyService.getMoneys();
-            BigDecimal totalValue = moneyService.getTotalValue(moneys);
-            return new ResponseEntity<>(totalValue, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    @RequestMapping(value = "/avarage", method = RequestMethod.GET)
-    public ResponseEntity<?> getAvarage() {
-        try {
-            List<Money> moneys = moneyService.getMoneys();
-            String totalValue = moneyService.getAvarage(moneys);
-            return new ResponseEntity<>(totalValue, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
     @RequestMapping(value = "/max-value", method = RequestMethod.GET)
     public ResponseEntity<?> getMaxValue() {
         try {
             List<Money> moneys = moneyService.getMoneys();
-            String maxValue = moneyService.getMaxValue(moneys);
+            Money maxValue = moneyService.getMaxValue(moneys);
             return new ResponseEntity<>(maxValue, HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
@@ -57,12 +32,12 @@ public class ApplicationController {
 
     }
 
-    @RequestMapping(value = "/min-value", method = RequestMethod.GET)
+    @RequestMapping(value = "/specific-value", method = RequestMethod.GET)
     public ResponseEntity<?> getMinValue() {
         try {
             List<Money> moneys = moneyService.getMoneys();
-            String minValue = moneyService.getMinValue(moneys);
-            return new ResponseEntity<>(minValue, HttpStatus.OK);
+            List<Money> specificValue = moneyService.getValueBiggerThreeHundred(moneys);
+            return new ResponseEntity<>(specificValue, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

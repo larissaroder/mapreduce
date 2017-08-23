@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 
 @Component
@@ -20,39 +22,40 @@ public class Calculate {
         // To Framework
     }
 
-    public BigDecimal totalValue(List<Money> moneys) {
+    public Money maxValue(List<Money> moneys) {
         return moneys.stream()
                 .parallel()
-                .map(Money::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(DECIMAL_SCALE);
+                .reduce(getAccumulator()).orElseThrow(getIllegalArgumentException());
     }
 
-    public String avarage(List<Money> moneys) {
-        double value = moneys.stream()
+    public List<Money> getValueBiggerThreeHundred(List<Money> moneys) {
+
+        List<Money> valorInicial = new ArrayList<>();
+        return moneys.stream()
                 .parallel()
-                .map(Money::getValue)
-                .mapToDouble(BigDecimal::doubleValue)
-                .average().orElseThrow(getIllegalArgumentException());
-        return decimalFormat.format(value);
+                .reduce(valorInicial, this::getMoniesValueBiggerThreeHundred
+                , this::addMoniesValueBiggerThreeHundred);
     }
 
-    public String maxValue(List<Money> moneys) {
-        BigDecimal value = moneys.stream()
-                .parallel()
-                .map(Money::getValue)
-                .max(Comparator.naturalOrder())
-                .orElseThrow(getIllegalArgumentException());
-        return decimalFormat.format(value);
+    private List<Money> addMoniesValueBiggerThreeHundred(List<Money> monies1, List<Money> monies2) {
+        monies1.addAll(monies2);
+        return monies1;
     }
 
-    public String minValue(List<Money> moneys) {
-        BigDecimal value = moneys.stream()
-                .parallel()
-                .map(Money::getValue)
-                .min(Comparator.naturalOrder())
-                .orElseThrow(getIllegalArgumentException());
-        return decimalFormat.format(value);
+    private List<Money> getMoniesValueBiggerThreeHundred(List<Money> monies1, Money money) {
+        if (money.getValue().doubleValue() > 300.00) {
+            monies1.add(money);
+        }
+        return monies1;
+    }
+
+    private BinaryOperator<Money> getAccumulator() {
+        return (money, money2) -> {
+            if (money.getValue().compareTo(money2.getValue()) == 1) {
+                return money;
+            }
+            return money2;
+        };
     }
 
     private Supplier<IllegalArgumentException> getIllegalArgumentException() {

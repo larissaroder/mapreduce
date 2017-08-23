@@ -3,10 +3,8 @@ package br.com.db1.infrastructure;
 import br.com.db1.model.Money;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
@@ -18,7 +16,7 @@ public class Calculate {
     public static final int DECIMAL_SCALE = 2;
     private static DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
-    protected Calculate () {
+    protected Calculate() {
         // To Framework
     }
 
@@ -34,7 +32,7 @@ public class Calculate {
         return moneys.stream()
                 .parallel()
                 .reduce(valorInicial, this::getMoniesValueBiggerThreeHundred
-                , this::addMoniesValueBiggerThreeHundred);
+                        , this::addMoniesValueBiggerThreeHundred);
     }
 
     private List<Money> addMoniesValueBiggerThreeHundred(List<Money> monies1, List<Money> monies2) {

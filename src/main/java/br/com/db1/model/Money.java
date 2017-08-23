@@ -9,6 +9,7 @@ public class Money {
 
     protected Money() {
     }
+
     public Money(BigDecimal value, Rate rate) {
         this.value = value;
         this.rate = rate;
